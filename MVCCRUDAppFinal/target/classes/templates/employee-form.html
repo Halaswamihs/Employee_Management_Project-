@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Employee Form</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .warning {
+            color: red;
+            display: none; /* Initially hide warning messages */
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h1> Add or Update Employee </h1>
+
+    <form id="employeeForm" th:action="@{/save}" th:object="${employee}" method="POST">
+        <input type="hidden" th:field="*{id}" />
+
+        <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" th:field="*{firstName}" id="firstName" placeholder="First name" class="form-control" required />
+            <div id="firstNameWarning" class="warning">First name is required.</div>
+        </div>
+
+        <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" th:field="*{lastName}" id="lastName" placeholder="Last name" class="form-control" required />
+            <div id="lastNameWarning" class="warning">Last name is required.</div>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" th:field="*{email}" id="email" placeholder="Email" class="form-control" required />
+            <div id="emailWarning" class="warning">Email is required.</div>
+        </div>
+
+        <button type="submit" class="btn btn-info">Save</button>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script>
+    // Form validation on submit
+    document.getElementById('employeeForm').addEventListener('submit', function(event) {
+        // Clear previous warnings
+        document.getElementById('firstNameWarning').style.display = 'none';
+        document.getElementById('lastNameWarning').style.display = 'none';
+        document.getElementById('emailWarning').style.display = 'none';
+
+        let valid = true;
+
+        // Check if fields are filled
+        if (!document.getElementById('firstName').value) {
+            document.getElementById('firstNameWarning').style.display = 'block';
+            valid = false;
+        }
+
+        if (!document.getElementById('lastName').value) {
+            document.getElementById('lastNameWarning').style.display = 'block';
+            valid = false;
+        }
+
+        if (!document.getElementById('email').value) {
+            document.getElementById('emailWarning').style.display = 'block';
+            valid = false;
+        }
+
+        // If form is not valid, prevent submission
+        if (!valid) {
+            event.preventDefault();
+        }
+    });
+</script>
+</body>
+</html>
